@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from pubsub.IEvent import IEvent
+
 
 class IChannel(ABC):
 
@@ -12,7 +14,7 @@ class IChannel(ABC):
         pass
 
     @abstractmethod
-    def emit_event(self, event_type, payload):
+    def emit_event(self, event: IEvent):
         pass
 
     @abstractmethod

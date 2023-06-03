@@ -3,13 +3,11 @@ from typing import Any, Callable, TypeVar, ClassVar
 from dataclasses import dataclass, field
 
 from pubsub.IChannel import IChannel
+from pubsub.IEvent import IEvent, EventPayload, EventType, T
 from pubsub.exceptions import ListenerDecoratorIsNotApplied
 
 
-T = TypeVar('T')
-EventType = T
-EventPayload = dict
-Receiver = Callable[[EventType, EventPayload, IChannel], None]
+Receiver = Callable[[IEvent, IChannel], None]
 ReceiverId = str
 
 
@@ -32,11 +30,11 @@ class Channel(IChannel):
             return
         self._listeners[event_type].pop(get_object_id(receiver), None)
 
-    def emit_event(self, event_type: EventType, payload: EventPayload):
-        if not self._listeners.get(event_type):
+    def emit_event(self, event: IEvent):
+        if not self._listeners.get(event.type):
             return
-        for receiver in self._listeners[event_type].values():
-            receiver(event_type, payload, self)
+        for receiver in self._listeners[event.type].values():
+            receiver(event, self)
 
     def add_event_listener(self, event_type: EventType, receiver: Receiver):
         if not self._listeners.get(event_type):
