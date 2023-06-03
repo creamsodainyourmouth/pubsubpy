@@ -1,0 +1,5 @@
+setup.py
+src/pubsub.egg-info/PKG-INFO
+src/pubsub.egg-info/SOURCES.txt
+src/pubsub.egg-info/dependency_links.txt
+src/pubsub.egg-info/top_level.txt
